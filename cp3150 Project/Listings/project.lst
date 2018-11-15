@@ -1,0 +1,77 @@
+A51 MACRO ASSEMBLER  PROJECT                                                              11/14/2018 22:17:55 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.2.7.0
+OBJECT MODULE PLACED IN .\Objects\project.obj
+ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE project.a51 SET(SMALL) DEBUG PRINT(.\Listings\project.lst) OBJECT(.\Obj
+                      ects\project.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+                       1     ;#include <reg932.inc>
+                       2     ;r1 = Mulitplicand
+                       3     ;r2 = Multiplier
+                       4     ;r3 = acc storage
+                       5     ;r4 = Safe Storage
+                       6     ;r7 == booth counter
+                       7     
+  001F                 8     multiplicand EQU 011111b ;Multiplicand value
+  000B                 9     multiplier EQU  001011b ;Multiplier Value
+0000 E4               10     clr a
+                      11     
+                      12     
+0001 7F0F             13     BOOTH:  MOV r7, #multiplicand / 2 ;Gives amount of times Booths algorithm needs to occur
+0003 C3               14                     clr c
+0004 791F             15                     MOV r1, #multiplicand 
+0006 7A0B             16                     mov r2, #multiplier
+0008 FB               17                     mov r3, a
+0009 DFF6             18                     DJNZ r7, BOOTH
+000B 8012             19                     jmp stop
+                      20                     
+                      21                     
+000D EA               22     SHIFT:  mov a,r2
+000E 13               23                     RRC a
+000F FA               24                     mov r2, a
+0010 FC               25                     mov r4, a ;store a for safety
+0011 5480             26                     ANL A, #10000000b
+0013 7007             27                     jnz     KEEPBIT
+0015 4C               28     SHIFT2: OrL a, r4
+0016 13               29                     RrC a
+0017 FB               30                     mov r3,a
+0018 EA               31                     mov a, r2
+0019 13               32                     rrc a
+001A 80E5             33                     jmp BOOTH
+                      34     
+                      35             
+                      36             
+                      37             
+                      38             
+001C D3               39     KEEPBIT:        setb c
+001D 80F6             40                             jmp SHIFT2
+                      41             
+                      42             
+                      43             
+                      44             
+001F                  45     stop: 
+                      46                     END     
+A51 MACRO ASSEMBLER  PROJECT                                                              11/14/2018 22:17:55 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+BOOTH. . . . . . .  C ADDR   0001H   A   
+KEEPBIT. . . . . .  C ADDR   001CH   A   
+MULTIPLICAND . . .  N NUMB   001FH   A   
+MULTIPLIER . . . .  N NUMB   000BH   A   
+SHIFT. . . . . . .  C ADDR   000DH   A   
+SHIFT2 . . . . . .  C ADDR   0015H   A   
+STOP . . . . . . .  C ADDR   001FH   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)
