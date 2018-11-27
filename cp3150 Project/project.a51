@@ -45,8 +45,8 @@ LOAD:	MOV R0, #MULTIPLICANDHB
 		RET
 		
 ;Shifts Result 		
-SHIFT:	CLR C		;Clear Cary Bit
-		MOV	A, R2
+SHIFT:	MOV	A, R2
+		MOV C, ACC.7	
 		RRC	A		;Rotate ResultHHB Right
 		MOV	R2, A
 		MOV	A, R3
@@ -74,10 +74,10 @@ ADD1:	CLR		C
 
 SUB1:	CLR		C
 		MOV		A, R3
-		SUBB  	A, R1		;Sub Multiplicand LB to R3
+		SUBB  	A, R1		;Sub Multiplicand LB from R3
 		MOV  	R3, A
 		MOV 	A, R2
-		SUBB 	A, R0		;Sub Multiplicand HB w/ C to R2
+		SUBB 	A, R0		;Sub Multiplicand HB from R2
 		MOV	 	R2, A
 		INC		R6			;Increment ADD/SUB Counter
 		RET
@@ -128,7 +128,7 @@ B1SKIP:	LCALL	SHIFT 		;Shift Right
 		LCALL 	ENDTMR		;Stop Timer
 		RET
 		
-		
+;Extended Booth's Function;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
 END
