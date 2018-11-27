@@ -1,4 +1,4 @@
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                    11/14/2018  22:17:55  PAGE 1
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                    11/27/2018  12:04:53  PAGE 1
 
 
 BL51 BANKED LINKER/LOCATER V6.22.2.0, INVOKED BY:
@@ -19,7 +19,7 @@ LINK MAP OF MODULE:  .\Objects\project2 (PROJECT)
             REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
 
             * * * * * * *   C O D E   M E M O R Y   * * * * * * *
-            CODE    0000H     001FH     ABSOLUTE     
+            CODE    0000H     0028H     ABSOLUTE     
 
 
 
@@ -29,43 +29,49 @@ SYMBOL TABLE OF MODULE:  .\Objects\project2 (PROJECT)
   ----------------------------------
 
   -------         MODULE        PROJECT
-  C:0001H         SYMBOL        BOOTH
-  C:001CH         SYMBOL        KEEPBIT
-  N:001FH         SYMBOL        MULTIPLICAND
-  N:000BH         SYMBOL        MULTIPLIER
-  C:000DH         SYMBOL        SHIFT
-  C:0015H         SYMBOL        SHIFT2
-  C:001FH         SYMBOL        STOP
-  C:0000H         LINE#         10
-  C:0001H         LINE#         13
-  C:0003H         LINE#         14
-  C:0004H         LINE#         15
-  C:0006H         LINE#         16
-  C:0008H         LINE#         17
-  C:0009H         LINE#         18
-  C:000BH         LINE#         19
-  C:000DH         LINE#         22
-  C:000EH         LINE#         23
-  C:000FH         LINE#         24
-  C:0010H         LINE#         25
-  C:0011H         LINE#         26
-  C:0013H         LINE#         27
-  C:0015H         LINE#         28
-  C:0016H         LINE#         29
-  C:0017H         LINE#         30
-  C:0018H         LINE#         31
-  C:0019H         LINE#         32
-  C:001AH         LINE#         33
-  C:001CH         LINE#         39
-  C:001DH         LINE#         40
+  C:0001H         SYMBOL        AANDS
+  C:000BH         SYMBOL        J1
+  C:000DH         SYMBOL        LOAD
+  N:0006H         SYMBOL        MULTIPLICANDHB
+  N:00E5H         SYMBOL        MULTIPLICANDLB
+  N:0005H         SYMBOL        MULTIPLIERHB
+  N:0055H         SYMBOL        MULTIPLIERLB
+  C:001AH         SYMBOL        SHIFT
+  C:0000H         LINE#         31
+  C:0001H         LINE#         33
+  C:0004H         LINE#         34
+  C:0007H         LINE#         35
+  C:0008H         LINE#         36
+  C:000BH         LINE#         37
+  C:000DH         LINE#         41
+  C:000FH         LINE#         42
+  C:0011H         LINE#         43
+  C:0013H         LINE#         44
+  C:0015H         LINE#         45
+  C:0017H         LINE#         46
+  C:0019H         LINE#         47
+  C:001AH         LINE#         50
+  C:001BH         LINE#         51
+  C:001CH         LINE#         52
+  C:001DH         LINE#         53
+  C:001EH         LINE#         54
+  C:001FH         LINE#         55
+  C:0020H         LINE#         56
+  C:0021H         LINE#         57
+  C:0022H         LINE#         58
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  11/27/2018  12:04:53  PAGE 2
+
+
+  C:0023H         LINE#         59
+  C:0024H         LINE#         60
+  C:0025H         LINE#         61
+  C:0026H         LINE#         62
+  C:0027H         LINE#         63
   -------         ENDMOD        PROJECT
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  11/14/2018  22:17:55  PAGE 2
-
-
 
 ******************************************************************************
-* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 001FH BYTE ( 1%) *
+* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 0028H BYTE ( 1%) *
 ******************************************************************************
 
-Program Size: data=8.0 xdata=0 code=31
+Program Size: data=8.0 xdata=0 code=40
 LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)
