@@ -32,6 +32,7 @@ MULTIPLIERLB   EQU 55H ;Multiplier LB Value
 		MOV	81H, #20H	;Set Stack Pointer to 20H
 		LCALL	AANDS
 		LCALL	B1ALG
+		LCALL	B2ALG
 LOOP:	SJMP	LOOP	;Loop Forever
 
 ;Loads Operand values into bank
@@ -129,6 +130,42 @@ B1SKIP:	LCALL	SHIFT 		;Shift Right
 		RET
 		
 ;Extended Booth's Function;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
+B2ALG:	MOV		0D0H, #00010000B	;Set Bank 2
+		LCALL 	STRTMR		;Start Timer
+		MOV 	18H, #08H	;Initializ loop counter
+		LCALL	LOAD		;Load operands into bank
+		CLR		C
+B2LOOP:	MOV		A, R5		;Move LLB to ACC
+		RLC		A			;Move Carry into ACC
+		ANL		A, #00000111B;Bit Mask low 3 bits
+		CJNE	A, #00000000B, NEXT1 ;If 000 shift
+		SJMP	B2SHIFT
+NEXT1:	CJNE	A, #00000001B, NEXT2;if 001 add and shift
+		LCALL 	ADD1
+		SJMP	B2SHIFT
+NEXT2:	CJNE	A, #00000010B, NEXT3;if 010 add and shift
+		LCALL 	ADD1
+		SJMP	B2SHIFT
+NEXT3:	CJNE	A, #00000011B, NEXT4;if 011 addx2 and shift
+		LCALL 	ADD1
+		LCALL 	ADD1
+		SJMP	B2SHIFT
+NEXT4:	CJNE	A, #00000100B, NEXT5;if 100 subx2 and shift
+		LCALL 	SUB1
+		LCALL 	SUB1
+		SJMP	B2SHIFT
+NEXT5:	CJNE	A, #00000101B, NEXT6;if 101 subx2 and shift
+		LCALL 	SUB1
+		SJMP	B2SHIFT
+NEXT6:	CJNE	A, #00000110B, NEXT7;if 110 subx2 and shift
+		LCALL 	SUB1
+		SJMP	B2SHIFT
+NEXT7:	CJNE	A, #00000111B, B2SHIFT;if 111  shift
+		SJMP	B2SHIFT
+B2SHIFT:LCALL	SHIFT 		;Shift Rightx2
+		LCALL	SHIFT
+		DJNZ	18H, B2LOOP	;Repeat Loop 16 times
+		LCALL 	ENDTMR		;Stop Timer
+		RET
 
 END

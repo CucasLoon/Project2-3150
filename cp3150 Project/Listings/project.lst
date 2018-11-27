@@ -1,4 +1,4 @@
-A51 MACRO ASSEMBLER  PROJECT                                                              11/27/2018 16:03:27 PAGE     1
+A51 MACRO ASSEMBLER  PROJECT                                                              11/27/2018 16:26:42 PAGE     1
 
 
 MACRO ASSEMBLER A51 V8.2.7.0
@@ -40,113 +40,150 @@ LOC  OBJ            LINE     SOURCE
                       30     ;Main Code Bock
 0000                  31                     ORG 0000H
 0000 758120           32                     MOV     81H, #20H       ;Set Stack Pointer to 20H
-0003 120050           33                     LCALL   AANDS
-0006 12006E           34                     LCALL   B1ALG
-0009 80FE             35     LOOP:   SJMP    LOOP    ;Loop Forever
-                      36     
-                      37     ;Loads Operand values into bank
-000B 7806             38     LOAD:   MOV R0, #MULTIPLICANDHB
-000D 79E5             39                     MOV R1, #MULTIPLICANDLB
-000F 7A00             40                     MOV     R2, #00H
-0011 7B00             41                     MOV R3, #00H
-0013 7C05             42                     MOV     R4, #MULTIPLIERHB
-0015 7D55             43                     MOV R5, #MULTIPLIERLB
-0017 7E00             44                     MOV     R6, #00H
-0019 22               45                     RET
-                      46                     
-                      47     ;Shifts Result          
-001A EA               48     SHIFT:  MOV     A, R2
-001B A2E7             49                     MOV C, ACC.7    
-001D 13               50                     RRC     A               ;Rotate ResultHHB Right
-001E FA               51                     MOV     R2, A
-001F EB               52                     MOV     A, R3
-0020 13               53                     RRC     A               ;Rotate ResultHLB Right
-0021 FB               54                     MOV     R3, A
-0022 EC               55                     MOV     A, R4
-0023 13               56                     RRC     A               ;Rotate ResultLHB Right
-0024 FC               57                     MOV     R4, A
-A51 MACRO ASSEMBLER  PROJECT                                                              11/27/2018 16:03:27 PAGE     2
+0003 120053           33                     LCALL   AANDS
+0006 120071           34                     LCALL   B1ALG
+0009 12009B           35                     LCALL   B2ALG
+000C 80FE             36     LOOP:   SJMP    LOOP    ;Loop Forever
+                      37     
+                      38     ;Loads Operand values into bank
+000E 7806             39     LOAD:   MOV R0, #MULTIPLICANDHB
+0010 79E5             40                     MOV R1, #MULTIPLICANDLB
+0012 7A00             41                     MOV     R2, #00H
+0014 7B00             42                     MOV R3, #00H
+0016 7C05             43                     MOV     R4, #MULTIPLIERHB
+0018 7D55             44                     MOV R5, #MULTIPLIERLB
+001A 7E00             45                     MOV     R6, #00H
+001C 22               46                     RET
+                      47                     
+                      48     ;Shifts Result          
+001D EA               49     SHIFT:  MOV     A, R2
+001E A2E7             50                     MOV C, ACC.7    
+0020 13               51                     RRC     A               ;Rotate ResultHHB Right
+0021 FA               52                     MOV     R2, A
+0022 EB               53                     MOV     A, R3
+0023 13               54                     RRC     A               ;Rotate ResultHLB Right
+0024 FB               55                     MOV     R3, A
+0025 EC               56                     MOV     A, R4
+0026 13               57                     RRC     A               ;Rotate ResultLHB Right
+A51 MACRO ASSEMBLER  PROJECT                                                              11/27/2018 16:26:42 PAGE     2
 
-0025 ED               58                     MOV     A, R5
-0026 13               59                     RRC     A               ;Rotate ResultLLB Right
-0027 FD               60                     MOV     R5, A
-0028 22               61                     RET
-                      62     
-                      63             
-                      64     ;Adds Multiplicand and HB Result
-0029 C3               65     ADD1:   CLR             C
-002A EB               66                     MOV             A, R3
-002B 39               67                     ADDC    A, R1           ;Add Multiplicand LB to R3
-002C FB               68                     MOV     R3, A
-002D EA               69                     MOV     A, R2
-002E 38               70                     ADDC    A, R0           ;Add Multiplicand HB w/ C to R2
-002F FA               71                     MOV             R2, A
-0030 0E               72                     INC             R6                      ;Increment ADD/SUB Counter
-0031 22               73                     RET
-                      74     
-0032 C3               75     SUB1:   CLR             C
-0033 EB               76                     MOV             A, R3
-0034 99               77                     SUBB    A, R1           ;Sub Multiplicand LB from R3
-0035 FB               78                     MOV     R3, A
-0036 EA               79                     MOV     A, R2
-0037 98               80                     SUBB    A, R0           ;Sub Multiplicand HB from R2
-0038 FA               81                     MOV             R2, A
-0039 0E               82                     INC             R6                      ;Increment ADD/SUB Counter
-003A 22               83                     RET
-                      84     
-                      85     ;Initializes Timer 0
-003B C28C             86     STRTMR: CLR     8CH                             ;Stop Timer
-003D 758A00           87                     MOV     8AH, #00H
-0040 758C00           88                     MOV     8CH, #00H               ;Set timer to 0
-0043 758940           89                     MOV     89H, #01000000B ;Set timer to Mode 1
-0046 D28C             90                     SETB 8CH                        ;Start Timer
-0048 22               91                     RET
-                      92                     
-                      93     ;Stops Timer 0 and loads result to R0, R1
-0049 C28C             94     ENDTMR: CLR             8CH                     ;Stop Timer
-004B A88C             95                     MOV             R0, 8CH
-004D A98A             96                     MOV             R1, 8AH         ;Move timer value to R0, R1
-004F 22               97                     RET
-                      98     
-                      99     ;Add and Shift function;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-0050 75D000          100     AANDS:  MOV             0D0H, #00000000B        ;Set Bank 0
-0053 12003B          101                     LCALL   STRTMR          ;Start Timer
-0056 751810          102                     MOV     18H, #10H       ;Initializ loop counter
-0059 12000B          103                     LCALL   LOAD            ;Load operands into bank
-005C ED              104     ALOOP:  MOV             A, R5           ;Move LLB to ACC
-005D 30E004          105                     JNB             ACC.0, ASKIP    ;if ACC = 0, skip add
-0060 120029          106                     LCALL   ADD1            ;Add Muliplicand to Result HB   
-0063 0E              107                     INC             R6                      ;Increment Add/Sub COunter
-0064 12001A          108     ASKIP:  LCALL   SHIFT           ;Shift Right
-0067 D518F2          109                     DJNZ    18H, ALOOP      ;Repeat Loop 16 times
-006A 120049          110                     LCALL   ENDTMR          ;Stop Timer
-006D 22              111                     RET
-                     112     
-                     113     ;Booth's Algorithm Funciton;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-006E 75D008          114     B1ALG:  MOV             0D0H, #00001000B        ;Set Bank 1
-0071 12003B          115                     LCALL   STRTMR          ;Start Timer
-0074 751810          116                     MOV     18H, #10H       ;Initializ loop counter
-0077 12000B          117                     LCALL   LOAD            ;Load operands into bank
-007A ED              118     B1LOOP: MOV             A, R5           ;Move LLB to ACC
-007B 30D708          119                     JNB             PSW.7, B1C0             ;If C=0, Jump to B1C0
-007E 20E00D          120                     JB              ACC.0, B1SKIP;If C=1, A.0=1, Skip ADD
-0081 120029          121     B1ADD:  LCALL   ADD1            ;If C=1, A.0=0, ADD
-0084 8008            122                     SJMP    B1SKIP
-0086 30E005          123     B1C0:   JNB             ACC.0, B1SKIP;If C=0, A.0=0, skip SUB
-A51 MACRO ASSEMBLER  PROJECT                                                              11/27/2018 16:03:27 PAGE     3
+0027 FC               58                     MOV     R4, A
+0028 ED               59                     MOV     A, R5
+0029 13               60                     RRC     A               ;Rotate ResultLLB Right
+002A FD               61                     MOV     R5, A
+002B 22               62                     RET
+                      63     
+                      64             
+                      65     ;Adds Multiplicand and HB Result
+002C C3               66     ADD1:   CLR             C
+002D EB               67                     MOV             A, R3
+002E 39               68                     ADDC    A, R1           ;Add Multiplicand LB to R3
+002F FB               69                     MOV     R3, A
+0030 EA               70                     MOV     A, R2
+0031 38               71                     ADDC    A, R0           ;Add Multiplicand HB w/ C to R2
+0032 FA               72                     MOV             R2, A
+0033 0E               73                     INC             R6                      ;Increment ADD/SUB Counter
+0034 22               74                     RET
+                      75     
+0035 C3               76     SUB1:   CLR             C
+0036 EB               77                     MOV             A, R3
+0037 99               78                     SUBB    A, R1           ;Sub Multiplicand LB from R3
+0038 FB               79                     MOV     R3, A
+0039 EA               80                     MOV     A, R2
+003A 98               81                     SUBB    A, R0           ;Sub Multiplicand HB from R2
+003B FA               82                     MOV             R2, A
+003C 0E               83                     INC             R6                      ;Increment ADD/SUB Counter
+003D 22               84                     RET
+                      85     
+                      86     ;Initializes Timer 0
+003E C28C             87     STRTMR: CLR     8CH                             ;Stop Timer
+0040 758A00           88                     MOV     8AH, #00H
+0043 758C00           89                     MOV     8CH, #00H               ;Set timer to 0
+0046 758940           90                     MOV     89H, #01000000B ;Set timer to Mode 1
+0049 D28C             91                     SETB 8CH                        ;Start Timer
+004B 22               92                     RET
+                      93                     
+                      94     ;Stops Timer 0 and loads result to R0, R1
+004C C28C             95     ENDTMR: CLR             8CH                     ;Stop Timer
+004E A88C             96                     MOV             R0, 8CH
+0050 A98A             97                     MOV             R1, 8AH         ;Move timer value to R0, R1
+0052 22               98                     RET
+                      99     
+                     100     ;Add and Shift function;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+0053 75D000          101     AANDS:  MOV             0D0H, #00000000B        ;Set Bank 0
+0056 12003E          102                     LCALL   STRTMR          ;Start Timer
+0059 751810          103                     MOV     18H, #10H       ;Initializ loop counter
+005C 12000E          104                     LCALL   LOAD            ;Load operands into bank
+005F ED              105     ALOOP:  MOV             A, R5           ;Move LLB to ACC
+0060 30E004          106                     JNB             ACC.0, ASKIP    ;if ACC = 0, skip add
+0063 12002C          107                     LCALL   ADD1            ;Add Muliplicand to Result HB   
+0066 0E              108                     INC             R6                      ;Increment Add/Sub COunter
+0067 12001D          109     ASKIP:  LCALL   SHIFT           ;Shift Right
+006A D518F2          110                     DJNZ    18H, ALOOP      ;Repeat Loop 16 times
+006D 12004C          111                     LCALL   ENDTMR          ;Stop Timer
+0070 22              112                     RET
+                     113     
+                     114     ;Booth's Algorithm Funciton;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+0071 75D008          115     B1ALG:  MOV             0D0H, #00001000B        ;Set Bank 1
+0074 12003E          116                     LCALL   STRTMR          ;Start Timer
+0077 751810          117                     MOV     18H, #10H       ;Initializ loop counter
+007A 12000E          118                     LCALL   LOAD            ;Load operands into bank
+007D ED              119     B1LOOP: MOV             A, R5           ;Move LLB to ACC
+007E 30D708          120                     JNB             PSW.7, B1C0             ;If C=0, Jump to B1C0
+0081 20E00D          121                     JB              ACC.0, B1SKIP;If C=1, A.0=1, Skip ADD
+0084 12002C          122     B1ADD:  LCALL   ADD1            ;If C=1, A.0=0, ADD
+0087 8008            123                     SJMP    B1SKIP
+A51 MACRO ASSEMBLER  PROJECT                                                              11/27/2018 16:26:42 PAGE     3
 
-0089 120032          124     B1SUB:  LCALL   SUB1            ;If C=0, A.0=1, Sub
-008C 8000            125                     SJMP    B1SKIP
-008E 12001A          126     B1SKIP: LCALL   SHIFT           ;Shift Right
-0091 D518E6          127                     DJNZ    18H, B1LOOP     ;Repeat Loop 16 times
-0094 120049          128                     LCALL   ENDTMR          ;Stop Timer
-0097 22              129                     RET
-                     130                     
-                     131     ;Extended Booth's Function;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                     132     
-                     133     
-                     134     END
-A51 MACRO ASSEMBLER  PROJECT                                                              11/27/2018 16:03:27 PAGE     4
+0089 30E005          124     B1C0:   JNB             ACC.0, B1SKIP;If C=0, A.0=0, skip SUB
+008C 120035          125     B1SUB:  LCALL   SUB1            ;If C=0, A.0=1, Sub
+008F 8000            126                     SJMP    B1SKIP
+0091 12001D          127     B1SKIP: LCALL   SHIFT           ;Shift Right
+0094 D518E6          128                     DJNZ    18H, B1LOOP     ;Repeat Loop 16 times
+0097 12004C          129                     LCALL   ENDTMR          ;Stop Timer
+009A 22              130                     RET
+                     131                     
+                     132     ;Extended Booth's Function;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+009B 75D010          133     B2ALG:  MOV             0D0H, #00010000B        ;Set Bank 2
+009E 12003E          134                     LCALL   STRTMR          ;Start Timer
+00A1 751808          135                     MOV     18H, #08H       ;Initializ loop counter
+00A4 12000E          136                     LCALL   LOAD            ;Load operands into bank
+00A7 C3              137                     CLR             C
+00A8 ED              138     B2LOOP: MOV             A, R5           ;Move LLB to ACC
+00A9 33              139                     RLC             A                       ;Move Carry into ACC
+00AA 5407            140                     ANL             A, #00000111B;Bit Mask low 3 bits
+00AC B40002          141                     CJNE    A, #00000000B, NEXT1 ;If 000 shift
+00AF 803B            142                     SJMP    B2SHIFT
+00B1 B40105          143     NEXT1:  CJNE    A, #00000001B, NEXT2;if 001 add and shift
+00B4 12002C          144                     LCALL   ADD1
+00B7 8033            145                     SJMP    B2SHIFT
+00B9 B40205          146     NEXT2:  CJNE    A, #00000010B, NEXT3;if 010 add and shift
+00BC 12002C          147                     LCALL   ADD1
+00BF 802B            148                     SJMP    B2SHIFT
+00C1 B40308          149     NEXT3:  CJNE    A, #00000011B, NEXT4;if 011 addx2 and shift
+00C4 12002C          150                     LCALL   ADD1
+00C7 12002C          151                     LCALL   ADD1
+00CA 8020            152                     SJMP    B2SHIFT
+00CC B40408          153     NEXT4:  CJNE    A, #00000100B, NEXT5;if 100 subx2 and shift
+00CF 120035          154                     LCALL   SUB1
+00D2 120035          155                     LCALL   SUB1
+00D5 8015            156                     SJMP    B2SHIFT
+00D7 B40505          157     NEXT5:  CJNE    A, #00000101B, NEXT6;if 101 subx2 and shift
+00DA 120035          158                     LCALL   SUB1
+00DD 800D            159                     SJMP    B2SHIFT
+00DF B40605          160     NEXT6:  CJNE    A, #00000110B, NEXT7;if 110 subx2 and shift
+00E2 120035          161                     LCALL   SUB1
+00E5 8005            162                     SJMP    B2SHIFT
+00E7 B40702          163     NEXT7:  CJNE    A, #00000111B, B2SHIFT;if 111  shift
+00EA 8000            164                     SJMP    B2SHIFT
+00EC 12001D          165     B2SHIFT:LCALL   SHIFT           ;Shift Rightx2
+00EF 12001D          166                     LCALL   SHIFT
+00F2 D518B3          167                     DJNZ    18H, B2LOOP     ;Repeat Loop 16 times
+00F5 12004C          168                     LCALL   ENDTMR          ;Stop Timer
+00F8 22              169                     RET
+                     170     
+                     171     END
+A51 MACRO ASSEMBLER  PROJECT                                                              11/27/2018 16:26:42 PAGE     4
 
 SYMBOL TABLE LISTING
 ------ ----- -------
@@ -154,28 +191,38 @@ SYMBOL TABLE LISTING
 
 N A M E             T Y P E  V A L U E   ATTRIBUTES
 
-AANDS. . . . . . .  C ADDR   0050H   A   
+AANDS. . . . . . .  C ADDR   0053H   A   
 ACC. . . . . . . .  D ADDR   00E0H   A   
-ADD1 . . . . . . .  C ADDR   0029H   A   
-ALOOP. . . . . . .  C ADDR   005CH   A   
-ASKIP. . . . . . .  C ADDR   0064H   A   
-B1ADD. . . . . . .  C ADDR   0081H   A   
-B1ALG. . . . . . .  C ADDR   006EH   A   
-B1C0 . . . . . . .  C ADDR   0086H   A   
-B1LOOP . . . . . .  C ADDR   007AH   A   
-B1SKIP . . . . . .  C ADDR   008EH   A   
-B1SUB. . . . . . .  C ADDR   0089H   A   
-ENDTMR . . . . . .  C ADDR   0049H   A   
-LOAD . . . . . . .  C ADDR   000BH   A   
-LOOP . . . . . . .  C ADDR   0009H   A   
+ADD1 . . . . . . .  C ADDR   002CH   A   
+ALOOP. . . . . . .  C ADDR   005FH   A   
+ASKIP. . . . . . .  C ADDR   0067H   A   
+B1ADD. . . . . . .  C ADDR   0084H   A   
+B1ALG. . . . . . .  C ADDR   0071H   A   
+B1C0 . . . . . . .  C ADDR   0089H   A   
+B1LOOP . . . . . .  C ADDR   007DH   A   
+B1SKIP . . . . . .  C ADDR   0091H   A   
+B1SUB. . . . . . .  C ADDR   008CH   A   
+B2ALG. . . . . . .  C ADDR   009BH   A   
+B2LOOP . . . . . .  C ADDR   00A8H   A   
+B2SHIFT. . . . . .  C ADDR   00ECH   A   
+ENDTMR . . . . . .  C ADDR   004CH   A   
+LOAD . . . . . . .  C ADDR   000EH   A   
+LOOP . . . . . . .  C ADDR   000CH   A   
 MULTIPLICANDHB . .  N NUMB   0006H   A   
 MULTIPLICANDLB . .  N NUMB   00E5H   A   
 MULTIPLIERHB . . .  N NUMB   0005H   A   
 MULTIPLIERLB . . .  N NUMB   0055H   A   
+NEXT1. . . . . . .  C ADDR   00B1H   A   
+NEXT2. . . . . . .  C ADDR   00B9H   A   
+NEXT3. . . . . . .  C ADDR   00C1H   A   
+NEXT4. . . . . . .  C ADDR   00CCH   A   
+NEXT5. . . . . . .  C ADDR   00D7H   A   
+NEXT6. . . . . . .  C ADDR   00DFH   A   
+NEXT7. . . . . . .  C ADDR   00E7H   A   
 PSW. . . . . . . .  D ADDR   00D0H   A   
-SHIFT. . . . . . .  C ADDR   001AH   A   
-STRTMR . . . . . .  C ADDR   003BH   A   
-SUB1 . . . . . . .  C ADDR   0032H   A   
+SHIFT. . . . . . .  C ADDR   001DH   A   
+STRTMR . . . . . .  C ADDR   003EH   A   
+SUB1 . . . . . . .  C ADDR   0035H   A   
 
 
 REGISTER BANK(S) USED: 0 
