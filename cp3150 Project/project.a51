@@ -23,10 +23,10 @@
 ;Other Assgnments
 ;18 = Loop counter
 ;Input Operands Here
-MULTIPLICANDHB EQU 06H ;Multiplicand HB value
-MULTIPLICANDLB EQU 0E5H ;Multiplicand LB value
-MULTIPLIERHB   EQU 05H ;Multiplier HB Value
-MULTIPLIERLB   EQU 55H ;Multiplier LB Value 
+MULTIPLICANDHB EQU 00H ;Multiplicand HB value
+MULTIPLICANDLB EQU 25H ;Multiplicand LB value
+MULTIPLIERHB   EQU 00H ;Multiplier HB Value
+MULTIPLIERLB   EQU 78H ;Multiplier LB Value 
 ;Main Code Bock
 		ORG 0000H
 		MOV	81H, #20H	;Set Stack Pointer to 20H

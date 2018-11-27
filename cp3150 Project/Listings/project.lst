@@ -1,4 +1,4 @@
-A51 MACRO ASSEMBLER  PROJECT                                                              11/27/2018 16:26:42 PAGE     1
+A51 MACRO ASSEMBLER  PROJECT                                                              11/27/2018 16:59:09 PAGE     1
 
 
 MACRO ASSEMBLER A51 V8.2.7.0
@@ -33,10 +33,10 @@ LOC  OBJ            LINE     SOURCE
                       23     ;Other Assgnments
                       24     ;18 = Loop counter
                       25     ;Input Operands Here
-  0006                26     MULTIPLICANDHB EQU 06H ;Multiplicand HB value
-  00E5                27     MULTIPLICANDLB EQU 0E5H ;Multiplicand LB value
-  0005                28     MULTIPLIERHB   EQU 05H ;Multiplier HB Value
-  0055                29     MULTIPLIERLB   EQU 55H ;Multiplier LB Value 
+  0000                26     MULTIPLICANDHB EQU 00H ;Multiplicand HB value
+  0025                27     MULTIPLICANDLB EQU 25H ;Multiplicand LB value
+  0000                28     MULTIPLIERHB   EQU 00H ;Multiplier HB Value
+  0078                29     MULTIPLIERLB   EQU 78H ;Multiplier LB Value 
                       30     ;Main Code Bock
 0000                  31                     ORG 0000H
 0000 758120           32                     MOV     81H, #20H       ;Set Stack Pointer to 20H
@@ -46,12 +46,12 @@ LOC  OBJ            LINE     SOURCE
 000C 80FE             36     LOOP:   SJMP    LOOP    ;Loop Forever
                       37     
                       38     ;Loads Operand values into bank
-000E 7806             39     LOAD:   MOV R0, #MULTIPLICANDHB
-0010 79E5             40                     MOV R1, #MULTIPLICANDLB
+000E 7800             39     LOAD:   MOV R0, #MULTIPLICANDHB
+0010 7925             40                     MOV R1, #MULTIPLICANDLB
 0012 7A00             41                     MOV     R2, #00H
 0014 7B00             42                     MOV R3, #00H
-0016 7C05             43                     MOV     R4, #MULTIPLIERHB
-0018 7D55             44                     MOV R5, #MULTIPLIERLB
+0016 7C00             43                     MOV     R4, #MULTIPLIERHB
+0018 7D78             44                     MOV R5, #MULTIPLIERLB
 001A 7E00             45                     MOV     R6, #00H
 001C 22               46                     RET
                       47                     
@@ -65,7 +65,7 @@ LOC  OBJ            LINE     SOURCE
 0024 FB               55                     MOV     R3, A
 0025 EC               56                     MOV     A, R4
 0026 13               57                     RRC     A               ;Rotate ResultLHB Right
-A51 MACRO ASSEMBLER  PROJECT                                                              11/27/2018 16:26:42 PAGE     2
+A51 MACRO ASSEMBLER  PROJECT                                                              11/27/2018 16:59:09 PAGE     2
 
 0027 FC               58                     MOV     R4, A
 0028 ED               59                     MOV     A, R5
@@ -133,7 +133,7 @@ LOC  OBJ            LINE     SOURCE
 0081 20E00D          121                     JB              ACC.0, B1SKIP;If C=1, A.0=1, Skip ADD
 0084 12002C          122     B1ADD:  LCALL   ADD1            ;If C=1, A.0=0, ADD
 0087 8008            123                     SJMP    B1SKIP
-A51 MACRO ASSEMBLER  PROJECT                                                              11/27/2018 16:26:42 PAGE     3
+A51 MACRO ASSEMBLER  PROJECT                                                              11/27/2018 16:59:09 PAGE     3
 
 0089 30E005          124     B1C0:   JNB             ACC.0, B1SKIP;If C=0, A.0=0, skip SUB
 008C 120035          125     B1SUB:  LCALL   SUB1            ;If C=0, A.0=1, Sub
@@ -183,7 +183,7 @@ LOC  OBJ            LINE     SOURCE
 00F8 22              169                     RET
                      170     
                      171     END
-A51 MACRO ASSEMBLER  PROJECT                                                              11/27/2018 16:26:42 PAGE     4
+A51 MACRO ASSEMBLER  PROJECT                                                              11/27/2018 16:59:09 PAGE     4
 
 SYMBOL TABLE LISTING
 ------ ----- -------
@@ -208,10 +208,10 @@ B2SHIFT. . . . . .  C ADDR   00ECH   A
 ENDTMR . . . . . .  C ADDR   004CH   A   
 LOAD . . . . . . .  C ADDR   000EH   A   
 LOOP . . . . . . .  C ADDR   000CH   A   
-MULTIPLICANDHB . .  N NUMB   0006H   A   
-MULTIPLICANDLB . .  N NUMB   00E5H   A   
-MULTIPLIERHB . . .  N NUMB   0005H   A   
-MULTIPLIERLB . . .  N NUMB   0055H   A   
+MULTIPLICANDHB . .  N NUMB   0000H   A   
+MULTIPLICANDLB . .  N NUMB   0025H   A   
+MULTIPLIERHB . . .  N NUMB   0000H   A   
+MULTIPLIERLB . . .  N NUMB   0078H   A   
 NEXT1. . . . . . .  C ADDR   00B1H   A   
 NEXT2. . . . . . .  C ADDR   00B9H   A   
 NEXT3. . . . . . .  C ADDR   00C1H   A   
