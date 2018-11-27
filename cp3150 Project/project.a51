@@ -60,14 +60,7 @@ SHIFT:	CLR C		;Clear Cary Bit
 		MOV	R5, A
 		RET
 
-;Initializes Timer 0
-STRTMR:	CLR	8CH				;Stop Timer
-		MOV	8AH, #00H
-		MOV	8CH, #00H		;Set timer to 0
-		MOV	89H, #01000000B	;Set timer to Mode 1
-		SETB 8CH 			;Start Timer
-		RET
-		
+	
 ;Adds Multiplicand and HB Result
 ADD1:	CLR		C
 		MOV		A, R3
@@ -81,14 +74,22 @@ ADD1:	CLR		C
 
 SUB1:	CLR		C
 		MOV		A, R3
-		SUBB  	A, R1		;Add Multiplicand LB to R3
+		SUBB  	A, R1		;Sub Multiplicand LB to R3
 		MOV  	R3, A
 		MOV 	A, R2
-		SUBB 	A, R0		;Add Multiplicand HB w/ C to R2
+		SUBB 	A, R0		;Sub Multiplicand HB w/ C to R2
 		MOV	 	R2, A
 		INC		R6			;Increment ADD/SUB Counter
 		RET
 
+;Initializes Timer 0
+STRTMR:	CLR	8CH				;Stop Timer
+		MOV	8AH, #00H
+		MOV	8CH, #00H		;Set timer to 0
+		MOV	89H, #01000000B	;Set timer to Mode 1
+		SETB 8CH 			;Start Timer
+		RET
+		
 ;Stops Timer 0 and loads result to R0, R1
 ENDTMR:	CLR		8CH			;Stop Timer
 		MOV		R0, 8CH
